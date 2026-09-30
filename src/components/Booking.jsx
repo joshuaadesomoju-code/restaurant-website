@@ -1,7 +1,6 @@
 import { useState } from "react";
-
-// Opening hours per weekday (0 = Sunday). Monday is closed.
-const OPEN = { 0: [13, 21], 1: null, 2: [12, 22], 3: [12, 22], 4: [12, 22], 5: [12, 23.5], 6: [12, 23.5] };
+import { CheckCircle, WarningCircle } from "@phosphor-icons/react";
+import { OPEN } from "../data";
 
 function todayISO() {
   const d = new Date();
@@ -45,64 +44,73 @@ export default function Booking() {
     if (!form.time) next.time = "Pick a time.";
     setErrors(next);
     if (Object.keys(next).length === 0) setDone(form);
+    else document.getElementById(`f-${Object.keys(next)[0]}`)?.focus();
   };
 
   if (done) {
     const when = new Date(done.date + "T12:00").toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
     return (
-      <div role="status" className="rounded-3xl bg-white p-8 text-center shadow-sm">
-        <p className="font-display text-3xl font-bold text-palm">See you soon, {done.name.split(" ")[0]}!</p>
-        <p className="mt-3 text-ink/80">Table for {done.guests} on {when} at {done.time}.</p>
-        <p className="mt-2 text-sm text-ink/60">This is a demo site, so no real booking was made.</p>
-        <button type="button" onClick={() => { setDone(null); setForm(empty); }} className="mt-6 rounded-full border-2 border-palm px-6 py-2.5 font-medium text-palm hover:bg-palm hover:text-cream">
+      <div role="status" className="bg-plaster p-8 sm:p-10">
+        <CheckCircle size={40} weight="fill" className="text-leaf" aria-hidden="true" />
+        <p className="display mt-5 text-4xl">See you soon, {done.name.trim().split(" ")[0]}!</p>
+        <p className="mt-4 text-lg">Table for {done.guests} on {when} at {done.time}.</p>
+        <p className="mt-2 text-ink-2">This is a demo site, so no real booking was made.</p>
+        <button type="button" onClick={() => { setDone(null); setForm(empty); }} className="btn btn-line mt-8">
           Make another booking
         </button>
       </div>
     );
   }
 
-  const field = "mt-1.5 w-full rounded-xl border border-sand bg-white px-4 py-3 outline-none focus:border-palm";
-  const Err = ({ k }) => (errors[k] ? <p id={`${k}-err`} className="mt-1 text-sm text-pepper-dark">{errors[k]}</p> : null);
+  const field = "mt-2 w-full rounded-none border-0 border-b-2 border-ink/25 bg-transparent px-0 py-3 text-lg outline-none transition-colors placeholder:text-ink-2/70 focus:border-leaf aria-[invalid=true]:border-pepper disabled:opacity-50 dark:focus:border-leaf-ink";
+  const Err = ({ k }) =>
+    errors[k] ? (
+      <p id={`${k}-err`} role="alert" className="mt-2 flex items-center gap-1.5 text-sm font-medium text-pepper-deep dark:text-[#ff8a6b]">
+        <WarningCircle size={16} weight="fill" aria-hidden="true" /> {errors[k]}
+      </p>
+    ) : null;
+  const label = "text-sm font-semibold";
 
   return (
-    <form onSubmit={submit} noValidate className="grid gap-5 rounded-3xl bg-white p-6 shadow-sm sm:grid-cols-2 sm:p-8">
-      <label className="sm:col-span-2">
-        <span className="text-sm font-medium">Name</span>
-        <input className={field} value={form.name} onChange={set("name")} autoComplete="name" aria-invalid={!!errors.name} aria-describedby="name-err" />
+    <form onSubmit={submit} noValidate className="grid gap-x-8 gap-y-7 bg-plaster p-6 sm:grid-cols-2 sm:p-10">
+      <div className="sm:col-span-2">
+        <label htmlFor="f-name" className={label}>Name</label>
+        <input id="f-name" name="name" className={field} value={form.name} onChange={set("name")} autoComplete="name" aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-err" : undefined} />
         <Err k="name" />
-      </label>
-      <label className="sm:col-span-2">
-        <span className="text-sm font-medium">Phone</span>
-        <input className={field} type="tel" value={form.phone} onChange={set("phone")} autoComplete="tel" placeholder="+234 …" aria-invalid={!!errors.phone} aria-describedby="phone-err" />
+      </div>
+      <div className="sm:col-span-2">
+        <label htmlFor="f-phone" className={label}>Phone</label>
+        <input id="f-phone" name="phone" className={field} type="tel" inputMode="tel" value={form.phone} onChange={set("phone")} autoComplete="tel" placeholder="+234 …" aria-invalid={!!errors.phone} aria-describedby={errors.phone ? "phone-err" : undefined} />
         <Err k="phone" />
-      </label>
-      <label>
-        <span className="text-sm font-medium">Date</span>
-        <input className={field} type="date" min={todayISO()} value={form.date} onChange={set("date")} aria-invalid={!!errors.date} aria-describedby="date-err" />
-        {closed && !errors.date && <p className="mt-1 text-sm text-pepper-dark">We're closed on Mondays.</p>}
+      </div>
+      <div>
+        <label htmlFor="f-date" className={label}>Date</label>
+        <input id="f-date" name="date" className={field} type="date" min={todayISO()} value={form.date} onChange={set("date")} aria-invalid={!!errors.date} aria-describedby={errors.date ? "date-err" : closed ? "date-closed" : undefined} />
+        {closed && !errors.date && <p id="date-closed" className="mt-2 text-sm font-medium text-pepper-deep dark:text-[#ff8a6b]">We're closed on Mondays.</p>}
         <Err k="date" />
-      </label>
-      <label>
-        <span className="text-sm font-medium">Time</span>
-        <select className={field} value={form.time} onChange={set("time")} disabled={!slots.length} aria-invalid={!!errors.time} aria-describedby="time-err">
+      </div>
+      <div>
+        <label htmlFor="f-time" className={label}>Time</label>
+        <select id="f-time" name="time" className={field} value={form.time} onChange={set("time")} disabled={!slots.length} aria-invalid={!!errors.time} aria-describedby={errors.time ? "time-err" : undefined}>
           <option value="">{form.date ? (slots.length ? "Choose a time" : "No times") : "Pick a date first"}</option>
           {slots.map((s) => <option key={s}>{s}</option>)}
         </select>
         <Err k="time" />
-      </label>
-      <label>
-        <span className="text-sm font-medium">Guests</span>
-        <select className={field} value={form.guests} onChange={set("guests")}>
+      </div>
+      <div>
+        <label htmlFor="f-guests" className={label}>Guests</label>
+        <select id="f-guests" name="guests" className={field} value={form.guests} onChange={set("guests")}>
           {Array.from({ length: 10 }, (_, i) => <option key={i + 1} value={i + 1}>{i + 1} {i ? "people" : "person"}</option>)}
         </select>
-      </label>
-      <label className="sm:col-span-2">
-        <span className="text-sm font-medium">Anything we should know? <span className="text-ink/50">(optional)</span></span>
-        <textarea className={field} rows={3} value={form.notes} onChange={set("notes")} placeholder="Birthday, allergies, high chair…" />
-      </label>
-      <button type="submit" className="rounded-full bg-pepper px-7 py-3.5 font-medium text-white hover:bg-pepper-dark sm:col-span-2 sm:justify-self-start">
-        Request booking
-      </button>
+      </div>
+      <div className="sm:col-span-2">
+        <label htmlFor="f-notes" className={label}>Anything we should know? <span className="font-normal text-ink-2">(optional)</span></label>
+        <textarea id="f-notes" name="notes" autoComplete="off" className={`${field} resize-y`} rows={2} value={form.notes} onChange={set("notes")} placeholder="Birthday, allergies, high chair…" />
+      </div>
+      <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
+        <button type="submit" className="btn btn-pepper">Request booking</button>
+        <p className="text-sm text-ink-2">Demo form. Nothing is sent.</p>
+      </div>
     </form>
   );
 }

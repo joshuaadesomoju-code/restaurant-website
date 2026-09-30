@@ -7,6 +7,8 @@ import { info } from "../data";
 const rowForDay = [2, 3, 0, 0, 0, 1, 1];
 
 export default function Visit() {
+  const [street, ...rest] = info.address.split(", ");
+  const area = rest.join(", ");
   const today = rowForDay[new Date().getDay()];
   return (
     <section id="visit" className="scroll-mt-16">
@@ -17,10 +19,12 @@ export default function Visit() {
             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(info.address)}`}
             target="_blank"
             rel="noreferrer"
-            className="group mt-8 inline-flex items-start gap-2 text-xl font-medium underline decoration-line decoration-2 underline-offset-[6px] hover:decoration-pepper"
+            className="group mt-8 inline-block max-w-[26ch] text-lg font-medium sm:text-xl"
           >
-            {info.address}
-            <ArrowUpRight size={20} weight="bold" className="mt-1 shrink-0" aria-hidden="true" />
+            <span className="underline decoration-line decoration-2 underline-offset-[6px] group-hover:decoration-pepper">{street},</span>
+            <br />
+            <span className="whitespace-nowrap underline decoration-line decoration-2 underline-offset-[6px] group-hover:decoration-pepper">{area}</span>
+            <ArrowUpRight size={18} weight="bold" className="ml-1.5 inline align-[-0.1em]" aria-hidden="true" />
           </a>
           <p className="mt-3 text-lg">
             <a href={`tel:${info.phone.replace(/\s/g, "")}`} className="tnum hover:text-pepper">{info.phone}</a>

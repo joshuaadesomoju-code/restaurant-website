@@ -32,11 +32,14 @@ export const photos = {
   grill: { id: "1708388464743-80126e9cdecf", alt: "Skewers cooking over open flames on a grill", by: "Daniel" },
   egusi: { id: "1763048443535-1243379234e2", alt: "Hands holding a bowl of egusi soup with assorted meats", by: "Tosan Dudun" },
   croaker: { id: "1718942899999-b3da4177ee2a", alt: "Whole grilled fish on a banana leaf", by: "Michael Lock" },
-  fish: { id: "1725393325387-07f0d4951528", alt: "Two grilled fish with onions and peppers", by: "Francisca Dzise" },
   zobo: { id: "1654922704274-cd34f165c5e7", alt: "A glass of deep red hibiscus drink", by: "Eiliv Aceron" },
   dodo: { id: "1705088295605-dd465ae2fca2", alt: "Bowls of fried plantain and sides on a marble table", by: "Gourmet Lenz" },
   terrace: { id: "1514053026555-49ce8886ae41", alt: "Concrete terrace with wicker chairs, white tables and tropical plants", by: "Sonnie Hiles" },
   night: { id: "1759744869584-4707bf349525", alt: "Outdoor dining area under a timber pergola at night", by: "Maksim Shutov" },
+  snacks: { id: "1665833613236-7c1d087463b1", alt: "Golden fried snacks served with a dip", by: "Keesha's Kitchen" },
+  chicken: { id: "1603496987674-79600a000f55", alt: "Roast chicken on a bed of spiced rice", by: "Dr Muhammad Amer" },
+  coals: { id: "1621851709622-e19c9a4f0cc5", alt: "Glowing charcoal and flames under a grill", by: "Adam Mills" },
+  drink: { id: "1566823422707-7813dab8eca9", alt: "A tall glass of red hibiscus drink with ice", by: "Victoria Shes" },
   blocks: { id: "1573510675363-a8dd93d6ab5d", alt: "White breeze-block wall", by: "Zachary Keimig" },
 };
 
@@ -67,7 +70,7 @@ export const menu = {
 };
 
 // The photo shown beside each menu section.
-export const menuPhoto = { Starters: "fish", Mains: "jollof", "From the grill": "grill", Drinks: "zobo" };
+export const menuPhoto = { Starters: "snacks", Mains: "chicken", "From the grill": "coals", Drinks: "drink" };
 
 // Signature plates. Titles are unchanged from the original gallery.
 export const gallery = [

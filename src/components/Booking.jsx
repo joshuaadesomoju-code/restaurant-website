@@ -72,7 +72,7 @@ export default function Booking() {
   const label = "text-sm font-semibold";
 
   return (
-    <form onSubmit={submit} noValidate className="grid gap-x-8 gap-y-7 bg-plaster p-6 sm:grid-cols-2 sm:p-10">
+    <form onSubmit={submit} noValidate data-rv data-rv-delay="80" className="grid gap-x-8 gap-y-7 bg-plaster p-6 sm:grid-cols-2 sm:p-10">
       <div className="sm:col-span-2">
         <label htmlFor="f-name" className={label}>Name</label>
         <input id="f-name" name="name" className={field} value={form.name} onChange={set("name")} autoComplete="name" aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-err" : undefined} />

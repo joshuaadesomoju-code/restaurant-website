@@ -93,3 +93,65 @@ h1, h2, h3 { text-wrap: balance; }
   html { scroll-behavior: auto; }
   .screen-open .screen-cell { opacity: 0; }
 }
+
+/* Scroll reveals (see src/reveal.js). Hidden states only exist under .rv,
+   which is set by JS, so content is never hidden without it. */
+:root {
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --rv-rise: 1100ms;
+  --rv-fade: 800ms;
+}
+.rv [data-rv]:not(.rv-done) {
+  transition:
+    opacity var(--rv-fade) var(--ease-out-quart) var(--rv-delay, 0ms),
+    transform var(--rv-rise) var(--ease-out-expo) var(--rv-delay, 0ms),
+    clip-path var(--rv-rise) var(--ease-out-expo) var(--rv-delay, 0ms);
+}
+.rv [data-rv]:not(.rv-in) { opacity: 0; transform: translate3d(0, 22px, 0); }
+.rv [data-rv="fade"]:not(.rv-in) { transform: none; }
+
+/* Headlines rise out of a mask: the visible edge stays on the baseline. */
+.rv [data-rv="title"]:not(.rv-in) { transform: translate3d(0, 38%, 0); clip-path: inset(0 0 38% 0); }
+.rv [data-rv="title"] { clip-path: inset(0 0 0 0); }
+
+/* Photos: the frame opens like the breeze-block screen in the hero,
+   while the picture settles from a slight zoom. */
+.rv [data-rv="img"] { --rv-rise: 1400ms; --rv-fade: 700ms; clip-path: inset(0 0 0 0); }
+.rv [data-rv="img"]:not(.rv-in) { transform: none; clip-path: inset(7% 7% 7% 7%); }
+.rv [data-rv="img"]:not(.rv-done) img {
+  transition:
+    transform 1600ms var(--ease-out-expo) var(--rv-delay, 0ms),
+    scale 700ms var(--ease-out-expo);
+}
+.rv [data-rv="img"]:not(.rv-in) img { transform: scale(1.12); }
+
+/* Reduced motion: no travel, no zoom, just a short cross-fade. */
+.rv-calm [data-rv]:not(.rv-done) { --rv-fade: 450ms; transition: opacity var(--rv-fade) ease-out var(--rv-delay, 0ms); }
+.rv-calm [data-rv]:not(.rv-in),
+.rv-calm [data-rv="title"]:not(.rv-in),
+.rv-calm [data-rv="img"]:not(.rv-in) { transform: none; clip-path: none; }
+.rv-calm [data-rv="img"]:not(.rv-in) img { transform: none; }
+
+@media print {
+  .rv [data-rv] { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+}
+
+/* Garden photo drifts slower than the page (browsers with scroll timelines). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .parallax-scope { view-timeline-name: --garden; }
+    .parallax {
+      animation: drift linear both;
+      animation-timeline: --garden;
+      animation-range: cover;
+    }
+  }
+}
+@keyframes drift {
+  from { transform: translate3d(0, -6%, 0); }
+  to { transform: translate3d(0, 6%, 0); }
+}
+/* Content swapped in by an interaction (menu tabs) arrives faster and closer. */
+.rv [data-rv][data-rv-quick] { --rv-rise: 600ms; --rv-fade: 380ms; }
+.rv [data-rv][data-rv-quick]:not(.rv-in) { transform: translate3d(0, 10px, 0); }
+.rv-calm [data-rv][data-rv-quick]:not(.rv-in) { transform: none; }

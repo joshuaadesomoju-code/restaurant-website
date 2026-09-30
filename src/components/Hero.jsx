@@ -30,15 +30,15 @@ export default function Hero() {
 
       <section aria-label="Opening information" className="bg-leaf text-leaf-ink">
         <div className="mx-auto grid max-w-[1320px] divide-y divide-white/15 px-5 sm:px-8 md:grid-cols-3 md:divide-x md:divide-y-0">
-          <p className="flex items-center gap-3 py-5 md:pr-8">
+          <p data-rv="fade" className="flex items-center gap-3 py-5 md:pr-8">
             <Clock size={22} weight="bold" className="shrink-0 text-white" aria-hidden="true" />
             <span className="font-semibold text-white">{status.text}</span>
           </p>
-          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(info.address)}`} target="_blank" rel="noreferrer" className="flex items-center gap-3 py-5 hover:text-white md:px-8">
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(info.address)}`} target="_blank" rel="noreferrer" data-rv="fade" className="flex items-center gap-3 py-5 hover:text-white md:px-8">
             <MapPin size={22} weight="bold" className="shrink-0 text-white" aria-hidden="true" />
             {info.address}
           </a>
-          <a href={`tel:${info.phone.replace(/\s/g, "")}`} className="flex items-center gap-3 py-5 hover:text-white md:pl-8">
+          <a href={`tel:${info.phone.replace(/\s/g, "")}`} data-rv="fade" className="flex items-center gap-3 py-5 hover:text-white md:pl-8">
             <Phone size={22} weight="bold" className="shrink-0 text-white" aria-hidden="true" />
             <span className="tnum">{info.phone}</span>
           </a>

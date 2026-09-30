@@ -23,12 +23,12 @@ export default function Menu() {
   return (
     <section id="menu" className="scroll-mt-16 bg-leaf-deep text-leaf-ink">
       <div className="mx-auto max-w-[1320px] px-5 py-20 sm:px-8 md:py-28">
-        <h2 className="display text-5xl text-white sm:text-7xl">The menu</h2>
-        <p className="mt-5 max-w-[34rem] text-lg text-leaf-ink/85">
+        <h2 data-rv="title" className="display text-5xl text-white sm:text-7xl">The menu</h2>
+        <p data-rv className="mt-5 max-w-[34rem] text-lg text-leaf-ink/85">
           Cooked fresh every day. Ask us about allergies; most dishes can be made milder.
         </p>
 
-        <div role="tablist" aria-label="Menu sections" className="-mx-5 mt-12 flex gap-x-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-b border-white/15 px-5 sm:mx-0 sm:px-0">
+        <div data-rv role="tablist" aria-label="Menu sections" className="-mx-5 mt-12 flex gap-x-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-b border-white/15 px-5 sm:mx-0 sm:px-0">
           {tabs.map((t, i) => (
             <button
               key={t}
@@ -52,14 +52,16 @@ export default function Menu() {
           ))}
         </div>
 
-        <div key={`m-${active}`} className="fade-swap mt-8 aspect-[16/9] overflow-hidden bg-leaf lg:hidden">
-          <Img name={menuPhoto[active]} w={900} h={506} sizes="100vw" />
+        <div data-rv="img" className="mt-8 lg:hidden">
+          <div key={`m-${active}`} className="fade-swap aspect-[16/9] overflow-hidden bg-leaf">
+            <Img name={menuPhoto[active]} w={900} h={506} sizes="100vw" />
+          </div>
         </div>
 
         <div className="mt-10 grid gap-12 lg:mt-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
           <ul id="menu-panel" role="tabpanel" aria-labelledby={`tab-${tabs.indexOf(active)}`} key={active} className="fade-swap divide-y divide-white/12">
             {menu[active].map((d) => (
-              <li key={d.name} className="grid grid-cols-[1fr_auto] gap-x-6 gap-y-1.5 py-6 first:pt-0">
+              <li key={d.name} data-rv className="grid grid-cols-[1fr_auto] gap-x-6 gap-y-1.5 py-6 first:pt-0">
                 <h3 className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xl font-semibold text-white sm:text-[1.35rem]">
                   {d.name}
                   {d.spicy && (
@@ -75,8 +77,10 @@ export default function Menu() {
             ))}
           </ul>
           <div className="hidden lg:block">
-            <div key={active} className="fade-swap sticky top-24 aspect-[4/5] overflow-hidden bg-leaf">
-              <Img name={menuPhoto[active]} w={720} h={900} sizes="36vw" />
+            <div data-rv="img" data-rv-delay="120" className="sticky top-24">
+              <div key={active} className="fade-swap aspect-[4/5] overflow-hidden bg-leaf">
+                <Img name={menuPhoto[active]} w={720} h={900} sizes="36vw" />
+              </div>
             </div>
           </div>
         </div>

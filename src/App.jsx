@@ -23,8 +23,8 @@ export default function App() {
       </main>
       <footer className="bg-leaf-deep text-leaf-ink">
         <div className="mx-auto max-w-[1320px] px-5 pb-10 pt-16 sm:px-8">
-          <p className="display text-[11vw] leading-[0.9] text-white md:text-[7.5vw] xl:text-[6.5rem]">{info.name}</p>
-          <div className="mt-12 grid gap-6 border-t border-white/15 pt-8 text-sm md:grid-cols-[1fr_auto] md:items-end">
+          <p data-rv="title" className="display text-[11vw] leading-[0.9] text-white md:text-[7.5vw] xl:text-[6.5rem]">{info.name}</p>
+          <div data-rv className="mt-12 grid gap-6 border-t border-white/15 pt-8 text-sm md:grid-cols-[1fr_auto] md:items-end">
             <div className="space-y-2">
               <p>© {new Date().getFullYear()} {info.name}. A fictional restaurant made for a portfolio demo; bookings are not real.</p>
               <p className="text-leaf-ink/75">

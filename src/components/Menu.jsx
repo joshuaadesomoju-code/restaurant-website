@@ -17,6 +17,7 @@ export default function Menu() {
     const next = (i + d + tabs.length) % tabs.length;
     setActive(tabs[next]);
     refs.current[next]?.focus();
+    refs.current[next]?.scrollIntoView({ block: "nearest", inline: "nearest" });
   };
 
   return (
@@ -27,7 +28,7 @@ export default function Menu() {
           Cooked fresh every day. Ask us about allergies; most dishes can be made milder.
         </p>
 
-        <div role="tablist" aria-label="Menu sections" className="-mx-5 mt-12 flex gap-x-8 overflow-x-auto border-b border-white/15 px-5 sm:mx-0 sm:px-0">
+        <div role="tablist" aria-label="Menu sections" className="-mx-5 mt-12 flex gap-x-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-b border-white/15 px-5 sm:mx-0 sm:px-0">
           {tabs.map((t, i) => (
             <button
               key={t}
@@ -37,7 +38,10 @@ export default function Menu() {
               aria-selected={active === t}
               aria-controls="menu-panel"
               tabIndex={active === t ? 0 : -1}
-              onClick={() => setActive(t)}
+              onClick={(e) => {
+                setActive(t);
+                e.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+              }}
               onKeyDown={(e) => onKey(e, i)}
               className={`-mb-px shrink-0 whitespace-nowrap border-b-[3px] pb-4 font-display text-xl font-bold [font-stretch:115%] transition-colors sm:text-2xl ${
                 active === t ? "border-pepper text-white" : "border-transparent text-leaf-ink/60 hover:text-white"
